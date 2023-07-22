@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        // Time Complexity ==> O(N*M) where N is the length of strs and M is the length of the strs[0];
+        // for(int i=1;i<strs.size();i++){
+        //     string common="";
+        //     int j=0;
+        //     while(j<strs[0].length() && strs[0][j]==strs[i][j]){
+        //         common+=strs[0][j++];
+        //     }
+        //     strs[0]=common;
+        // }
+        // return strs[0];
+
+        // Better Solution  TC = O(nlog(n)+m) 
+        sort(strs.begin(),strs.end());
+        string s1=strs[0];
+        string s2=strs[strs.size()-1];
+        int i=0;
+        while(s1.length()>i && s2.length()>i && s1[i]==s2[i])   i++;
+        return s1.substr(0,i);
+    }
+};
