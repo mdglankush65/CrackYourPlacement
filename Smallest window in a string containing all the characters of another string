@@ -1,0 +1,105 @@
+//GFG
+class Solution{
+  public:
+    //Function to find the smallest window in the string s consisting
+    //of all the characters of string p.
+    // string smallestWindow (string s, string p)
+    // {
+    //     int n=s.length(),m=p.length();
+    //     if(m>n)
+    //         return "-1";
+    //     unordered_map<char,int> freq,mp;
+    //     for(int i=0;i<m;i++)    freq[p[i]]++;
+    //     int match=0,desire=m;
+    //     int i=-1,j=-1;
+    //     string res=s;
+    //     while(true){
+    //         bool f1=0,f2=0;
+    //         while(i<n-1 && match<desire ){
+    //             i++;
+    //             mp[s[i]]++;
+    //             if(freq[s[i]]>=mp[s[i]])
+    //                 match++;
+    //             f1=1;
+    //         }
+            
+    //         while(j<i && match==desire){
+    //             string temp=s.substr(j+1,i+1);
+    //             if(res.length()==0 || res.length()>temp.length())
+    //                 res=temp;
+    //             j++;
+    //             char ch=s[j];
+    //             mp[ch]--;
+    //             if(mp[ch]<freq[ch])
+    //                 match--;
+    //             f2=1;
+    //             // cout<<res<<endl;
+    //         }
+    //         if(!f1 && !f2)  break;
+    //     }
+    //     return res;
+    // }
+    // string smallestWindow (string s, string p)
+    // {
+    //     unordered_map<char,int> freq,mp;
+    //     for(auto i:p)   freq[i]++;
+    //     int n=s.length(),m=p.length();
+    //     int i=0,j=-1;
+    //     string res="";
+    //     int match=0,desire=m;
+    //     while(true){
+    //         bool f1=false,f2=false;
+    //         // acquire
+    //         while(i<n and match<desire){
+    //             mp[s[i]]++;
+    //             if(mp[s[i]]<=freq[s[i]])
+    //                 match++;
+    //             f1=1;
+    //             i++;
+    //         }
+    //         if(match==desire and (res.length()==0 || res.length()>i-j)){
+    //             res=s.substr(j+1,i-j-1);
+    //             // cout<<res<<endl;
+    //         }
+    //         else if(i>=n)   return res;
+    //         // release 
+    //         while(match==desire && j<i){
+    //             j++;
+    //             mp[s[j]]--;
+    //             if(mp[s[j]]<freq[s[j]]){
+    //                 match--;
+    //                 break;
+    //             }
+    //             else
+    //                 res=s.substr(j+1,i-j-1);
+    //             // cout<<res<<endl;
+    //             f2=1;
+    //         }
+    //         if(!f1 && !f2)
+    //             return res;
+    //     }
+    //     return res;
+    // }
+    string smallestWindow (string s, string t)
+    {
+        // Your code here
+        vector<int> mp_s(26,0),mp_t(26,0);
+        for(int i=0;i<t.length();i++) mp_t[t[i]-'a']++;
+        int count = 0,idx = 0,startIdx = -1,minLen = 1e6;
+        for(int i=0;i<s.length();i++) {
+            mp_s[s[i]-'a']++;
+            if(mp_s[s[i]-'a'] <= mp_t[s[i]-'a']) count++;
+            if(count == t.length()) {
+                while(mp_s[s[idx]-'a'] > mp_t[s[idx]-'a']) {
+                    mp_s[s[idx]-'a']--;
+                    idx++;
+                }
+                if(minLen > i - idx + 1) {
+                    minLen = i - idx + 1;
+                    startIdx = idx;
+                }
+            }
+        }
+        return startIdx == -1 ? "-1" : s.substr(startIdx,minLen);
+    }
+};
