@@ -1,0 +1,67 @@
+// Time Complexity ==> O(n*2^n) and Space complexity ==> O(n)
+// class Solution {
+// public:
+//     bool isValid(string &s){
+//         stack<char> st;
+//         int i=0;
+//         while(i<s.length()){
+//             if(st.empty())
+//                 st.push(s[i]);
+//             else if(st.top()=='(' && s[i]==')')
+//                 st.pop();
+//             else
+//                 st.push(s[i]);
+//             i++;
+//         }
+//         return st.empty();
+//     }
+//     void solve(int n,string s,vector<string> &res){
+//         if(n==0){
+//             // cout<<s<<endl;
+//             if(isValid(s))
+//               res.push_back(s);
+//             return;
+//         }
+//         n--;
+//         solve(n,s+'(',res);
+//         solve(n,s+')',res);
+//     }
+//     vector<string> generateParenthesis(int n) {
+//         // string s="(",end=')';
+//         if(n==1)
+//             return {"()"};
+//         vector<string> res;
+//         solve(2*n,"",res);
+//         return res;
+//     }
+// };
+
+// Time Complexity => O(N) and Space Complexity => O(N)
+class Solution{
+    public:
+    void solve(int i,int open,int close,int &n,string &s,vector<string> &res){
+        if(i==n){
+            res.push_back(s);
+            return;
+        }
+        if(open>0 && i<n-1){
+            s+='(';
+            solve(i+1,open-1,close,n,s,res);
+            s.pop_back();
+        }
+        if(close>0 && open<close){
+            s+=')';
+            solve(i+1,open,close-1,n,s,res);
+            s.pop_back();
+        }
+    }
+    vector<string> generateParenthesis(int n){
+        vector<string> res;
+        string s="(";
+        int open=n-1,close=n;
+        n*=2;
+        int index=1;
+        solve(index,open,close,n,s,res);
+        return res;
+    }
+};
