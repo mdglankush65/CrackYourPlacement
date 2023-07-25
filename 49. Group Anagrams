@@ -18,3 +18,20 @@ public:
     }
         
 };
+
+// in Js
+var groupAnagrams = function(strs) {
+    let mp=new Map();
+    for(let i=0;i<strs.length;i++){
+        let str=strs[i].split('').sort().join('');
+        // console.log(str);
+        if(mp.has(str))
+            mp.get(str).push(strs[i]);
+            // mp[str].push(strs[i]);
+        else
+            mp.set(str,[strs[i]]);
+    }
+    // let res=[mp.values()];
+    let res=[...mp.values()];
+    return res;
+};
