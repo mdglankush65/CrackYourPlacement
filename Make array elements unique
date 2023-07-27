@@ -1,0 +1,51 @@
+// long long int minIncrements(vector<int> arr, int N) {
+    //     // Code here
+    //     map<int,int> mp;
+    //     for(auto i:arr){
+    //         mp[i]++;
+    //     }
+    //     long ans=0;
+    //     for(auto i:mp){
+    //         while(i.second>1){
+    //             int num=i.first;
+    //             while(mp.find(num)!=mp.end()){
+    //                 num++;
+    //                 ans++;
+    //             }
+    //             i.second--;
+    //             mp[num]++;
+    //         }
+    //     }
+    //     // for(auto num:mp)
+    //     //     cout<<num.first<<" ";
+    //     return ans;
+    // }
+    long long int minIncrements(vector<int> arr, int n) {
+        // Code here
+        // Gives TLE
+        // long long int cnt=0;
+        // unordered_map<int,bool> mp;
+        // sort(arr.begin(),arr.end());
+        // for(auto i:arr){
+        //     if(!mp[i])
+        //         mp[i]=1;
+        //     else{
+        //         while(mp[i]){
+        //             i++;
+        //             cnt++;
+        //         }
+        //         mp[i]=1;
+        //     }
+        // }
+        // return cnt;
+        
+        long long int cnt=0;
+        sort(arr.begin(),arr.end());
+        for(int i=1;i<n;i++){
+            if(arr[i]<=arr[i-1]){
+                cnt+=abs(arr[i]-arr[i-1])+1;
+                arr[i]=arr[i-1]+1;
+            }
+        }
+        return cnt;
+    }
