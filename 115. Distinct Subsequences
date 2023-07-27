@@ -1,0 +1,28 @@
+class Solution {
+public:
+// NOT Completed Due to DP
+    vector<string> fullJustify(vector<string>& words, int mx) {
+        vector<string> res;
+        string temp="";
+        for(auto i=0;i<words.size();){
+            if(temp.length()+words[i].length()<=mx){
+                temp+=words[i]+' ';
+                i++;
+            }
+            else{
+                res.push_back(temp);
+                temp="";
+            }
+        }
+        res.push_back(temp);
+        for(int i=0;i<res.size();i++){
+            int m=res[i].length();
+            if(res[i][m-1]==' '){
+                res[i].pop_back();
+                m--;
+            }
+            int avg=(mx-m);
+        }
+        return res;
+    }
+};
