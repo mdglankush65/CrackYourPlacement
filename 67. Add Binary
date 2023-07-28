@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int c=0;
+        string res="";
+        int n=a.size(),m=b.size();
+        reverse(a.begin(),a.end());
+        reverse(b.begin(),b.end());
+        if(n<m){
+            swap(a,b);
+            swap(n,m);
+        }
+        for(int i=0;i<m;i++){
+            int u=a[i]-'0',v=b[i]-'0';
+            if(u+v+c&1)
+                res.push_back('1');
+            else
+                res.push_back('0');
+            c=(u+v+c==3 || u+v+c==2)?1:0;
+        }
+        cout<<res<<endl;
+        for(int i=m;i<n;i++){
+            int u=a[i]-'0';
+            if(u+c==1 || u+c==3)
+                res.push_back('1');
+            else
+                res.push_back('0');
+            c=(u+c==2)?1:0;
+        }
+        cout<<res<<endl;
+        if(c==1)
+            res.push_back('1');
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
