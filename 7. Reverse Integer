@@ -1,0 +1,27 @@
+// class Solution {
+// public:
+    // int reverse(int x) {
+        // bool neg=x<0;
+        // long long int y=0;
+        // x=abs(x);
+        // while(x){
+        //     y=y*10+x%10,x/=10;
+        //     if(y>=INT_MAX || y<=INT_MIN)
+        //         return 0;
+        // }
+        // return neg?-y:y;
+        
+    // }
+// };
+class Solution {
+public:
+    int reverse(int x) {
+        int ans=0;
+        while(x!=0){
+            if(ans>(INT_MAX/10) || (ans<INT_MIN/10))
+                return 0;
+            ans=(ans*10) + x%10,x/=10;
+        }
+        return ans;
+    }
+};
