@@ -1,0 +1,42 @@
+// class Solution {
+// public:
+//     bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+        
+//     }
+// };
+class Solution {
+public:
+    double dis(int &a,int &b,int &c,int &d){
+        return sqrt((a-c)*(a-c) + (b-d)*(b-d));
+    }
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+        double a=dis(p1[0],p1[1],p2[0],p2[1]);
+        double b=dis(p1[0],p1[1],p3[0],p3[1]);
+        double c=dis(p1[0],p1[1],p4[0],p4[1]);
+        double d=dis(p3[0],p3[1],p2[0],p2[1]);
+        double e=dis(p4[0],p4[1],p2[0],p2[1]);
+        double f=dis(p4[0],p4[1],p3[0],p3[1]);
+        // lets catch p1 point and find distance with all other points.
+        unordered_map<double,int> mp;
+        mp[a]++;
+        mp[b]++;
+        mp[c]++;
+        mp[d]++;
+        mp[e]++;
+        mp[f]++;
+        if(mp.size()>2)
+            return false;
+        double sq=-1,dai=-1;
+        for(auto i: mp){
+            if(i.first==0)
+                return false;
+            if(i.second==4)
+                sq=i.first;
+            else if(i.second==2)
+                dai=i.first;
+            else
+                return false;
+        }
+        return true;
+    }
+};
