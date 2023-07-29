@@ -1,0 +1,13 @@
+class Solution {
+public:
+    string convertToTitle(int num) {
+        string res="";
+        while(num){
+            num--;
+            res+=char(num%26+'A');
+            num/=26;
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
