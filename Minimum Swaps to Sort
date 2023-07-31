@@ -1,0 +1,40 @@
+class Solution 
+{
+    public:
+    //Function to find the minimum number of swaps required to sort the array. 
+	int minSwaps(vector<int>&nums)
+	{
+	    int n=nums.size();
+	    vector<int> sorted=nums;
+	    unordered_map<int,int> mp;
+	    int cnt=0,i=0;
+	    
+	    sort(sorted.begin(),sorted.end());
+	    
+	    for(int i=0;i<n;i++)
+	        mp[sorted[i]]=i;
+	       
+	    while(i<n){
+	       //if(nums[i]==sorted[i]){
+	       //    i++;
+	       //    continue;
+	       //}
+	       //int j=mp[sorted[i]];
+	       ////for(;j<n;j++){
+	       ////    if(nums[j]==sorted[i])
+	       ////     break;
+	       ////}
+	       //if(j<n){
+	       //    swap(nums[i],nums[j]);
+	       //    cnt++;
+	       //}
+	       if(i!=mp[nums[i]]){
+	           swap(nums[i],nums[mp[nums[i]]]);
+	           cnt++;
+	       }
+	       else
+	        i++;
+	    }
+	    return cnt;
+	}
+};
