@@ -1,0 +1,42 @@
+class Solution{
+public:
+    Node* rearrangeList(Node* head){
+        if(!head || !head->next || !head->next->next)
+            return head;
+        Node* slow=head,*fast=head->next,*prev=NULL;
+        while(fast){
+            fast=fast->next;
+            slow=slow->next;
+            if(fast)
+                fast=fast->next;
+        }
+        prev=slow->next;
+        slow->next=NULL;
+        fast=head;
+        slow=prev;
+        Node* next=NULL,*curr=slow;
+        prev=NULL;
+        while(curr){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        slow=prev;
+        Node* ans=new Node(0),*tail=NULL;
+        tail=ans;
+        while(slow && fast){
+            tail->next=fast;
+            tail=tail->next;
+            fast=fast->next;
+            tail->next=slow;
+            tail=tail->next;
+            slow=slow->next;
+        }
+        if(fast)
+            tail->next=fast;
+        if(slow)
+            tail->next=slow;
+        return ans->next;
+    }
+};
