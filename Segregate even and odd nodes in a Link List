@@ -1,0 +1,22 @@
+class Solution{
+public:
+    Node* divide(int N, Node *head){
+        // code here
+        Node* odd=new Node(1),*even=new Node(0);
+        Node* curr=head,*ot=odd,*et=even;
+        while(curr){
+            if(curr->data&1){
+                ot->next=curr;
+                ot=ot->next;
+            }
+            else{
+                et->next=curr;
+                et=et->next;
+            }
+            curr=curr->next;
+        }
+        et->next=odd->next;
+        ot->next=NULL;
+        return even->next;
+    }
+};
