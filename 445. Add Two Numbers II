@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head){
+        ListNode* curr=head,*prev=NULL,*next=NULL;
+        while(curr){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        l1=reverseList(l1);
+        l2=reverseList(l2);
+        int c=0;
+        ListNode* res=new ListNode(0);
+        ListNode* a=l1,*b=l2,*tail=res;
+        while(a && b){
+            int value=(a->val+b->val+c)%10;
+            c=(a->val+b->val+c)/10;
+            ListNode* temp=new ListNode(value);
+            tail->next=temp;
+            tail=temp;
+            a=a->next;
+            b=b->next;
+        }
+        while(a){
+            int value=(a->val+c)%10;
+            c=(a->val+c)/10;
+            ListNode* temp=new ListNode(value);
+            tail->next=temp;
+            tail=temp;
+            a=a->next;
+        }
+        while(b){
+            int value=(b->val+c)%10;
+            c=(b->val+c)/10;
+            ListNode* temp=new ListNode(value);
+            tail->next=temp;
+            tail=temp;
+            b=b->next;
+        }
+        if(c!=0){
+            ListNode* temp=new ListNode(c);
+            tail->next=temp;
+            tail=temp;
+        }
+        res=res->next;
+        return reverseList(res);
+    }
+};
