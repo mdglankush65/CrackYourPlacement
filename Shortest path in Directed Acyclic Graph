@@ -1,0 +1,25 @@
+class Solution {
+  public:
+     vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+        // code here
+        queue<pair<int,int>> q;
+        vector<int> res(N,INT_MAX);
+        q.push({0,0});
+        res[0]=0;
+        while(!q.empty()){
+            int node=q.front().first;
+            int w=q.front().second;
+            q.pop();
+            for(int i=0;i<M;i++){
+                int sec=edges[i][1],wtt=edges[i][2];
+                if(edges[i][0]==node && wtt+w<res[sec]){
+                    res[sec]=min(res[sec],w+wtt);
+                    q.push({sec,wtt+w});
+                }
+            }
+        }
+        for(int i=0;i<N;i++)
+            if(res[i]==INT_MAX) res[i]=-1;
+        return res;
+    }
+};
