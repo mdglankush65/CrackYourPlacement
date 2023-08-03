@@ -1,0 +1,116 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode* head){
+        if(!head || !head->next)
+            return head;
+        ListNode* curr=head,*prev=NULL,*next=NULL;
+        while(curr){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+    int length(ListNode* head){
+        int cnt=0;
+        ListNode* curr=head;
+        while(curr){
+            cnt++;
+            curr=curr->next;
+        }
+        return cnt;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!head || !head->next)
+            return head;
+        if(length(head)<k)
+            return reverse(head);
+        ListNode* ans=new ListNode(0);
+        ListNode* tail=ans;
+        while(head){
+            ListNode* curr=head;
+            int l=1;
+            while(curr && k>l){
+                curr=curr->next;
+                l++;
+            }
+            if(curr && l==k){
+                ListNode* nh=curr->next;
+                curr->next=NULL;
+                tail->next=reverse(head);
+                tail=head;
+                head=nh;
+            }
+            else{
+                tail->next=head;
+                head=NULL;
+            }
+        }
+        return ans->next;
+    }
+};
+
+
+// Method 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* pair(ListNode* head,int k){
+        ListNode* curr=head,*prev=NULL,*next=NULL;
+        for(int i=1;i<=k && head;i++){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        head->next=next;
+        return prev;
+    }
+    int len(ListNode* head){
+        if(head==NULL)
+            return 0;
+        return 1+len(head->next);
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!head)
+            return head;
+        if(len(head)>=k)
+        head=pair(head,k);
+        int i=k;
+        ListNode* curr=head,*tail=NULL;
+        while(i--){
+            tail=curr;
+            curr=curr->next;
+        }
+        while(curr && len(curr)>=k){
+            i=k;
+            curr=pair(curr,k);
+            tail->next=curr;
+            while(i--){
+                tail=curr;
+                curr=curr->next;
+            }
+        }
+        return head;
+    }
+};
