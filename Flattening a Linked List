@@ -1,0 +1,124 @@
+
+
+/* Node structure  used in the program
+
+struct Node{
+	int data;
+	struct Node * next;
+	struct Node * bottom;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	    bottom = NULL;
+	}
+	
+};
+*/
+
+/*  Function which returns the  root of 
+    the flattened linked list. */
+Node* sortedMerge(Node* h1, Node* h2)  
+{  
+    Node* res=new Node(0);
+    Node* tail=res;
+    while(h1 || h2){
+        if(h1 && h2){
+            if(h1->data < h2->data){
+                tail->bottom=h1;
+                tail=h1;
+                h1=h1->bottom;
+            }
+            else{
+                tail->bottom=h2;
+                tail=h2;
+                h2=h2->bottom;
+            }
+        }
+        else if(h1){
+            tail->bottom=h1;
+            break;
+        }
+        else if(h2){
+            tail->bottom=h2;
+            break;
+        }
+    }
+    return res->bottom;
+}  
+Node *flatten(Node *root)
+{
+   Node* ans=NULL;
+   while(root){
+       ans=sortedMerge(ans,root);
+       root=root->next;
+   }
+   return ans;
+}
+
+
+// Method - 2 
+/* Node structure  used in the program
+
+struct Node{
+	int data;
+	struct Node * next;
+	struct Node * bottom;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	    bottom = NULL;
+	}
+	
+};
+*/
+
+/*  Function which returns the  root of 
+    the flattened linked list. */
+Node* merge(Node* h1,Node* h2){
+    Node* ans=new Node(0);
+    Node* tail=ans;
+    while(h1 && h2){
+        if(h1->data>h2->data){
+            tail->bottom=h2;
+            tail=h2;
+            h2=h2->bottom;
+        }
+        else{
+            tail->bottom=h1;
+            tail=h1;
+            h1=h1->bottom;
+        }
+    }
+    if(h1)
+        tail->bottom=h1;
+    if(h2)
+        tail->bottom=h2;
+    return ans->bottom;
+}
+
+// Node *flattened(Node *root,Node* ans=NULL){
+//     if(!root)
+//         return root;
+//   Node* curr=root;
+//   curr->next=NULL;
+//   root=root->next;
+//   ans=merge(curr,ans);
+//   ans=flattened(root,ans);
+//   return ans;
+// }
+
+Node *flatten(Node *root){
+    if(!root)
+        return root;
+    Node* ans=NULL;
+    while(root){
+        Node* curr=root;
+        root=root->next;
+        curr->next=NULL;
+        ans=merge(curr,ans);
+    }
+    return ans;
+    // return flattened(root,NULL);
+}
