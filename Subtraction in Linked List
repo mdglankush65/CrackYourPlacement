@@ -1,0 +1,66 @@
+Node* subLinkedList(Node* h1, Node* h2)
+{
+    //Your code here
+    if(!h1)
+        return h2;
+    if(!h2)
+        return h1;
+    if(!h1 && !h2)
+        return NULL;
+    while(h1 && h1->data==0)
+        h1=h1->next;
+    while(h2 && h2->data==0)
+        h2=h2->next;
+    Node* res=new Node(0);
+    int l1=length(h1);
+    int l2=length(h2);
+    if(l1==l2){
+        int ans=compare(h1,h2);
+        if(ans==0)
+            return res;
+        if(ans==2){
+            Node* temp=h2;
+            h2=h1;
+            h1=temp;
+            swap(l1,l2);
+        }
+    }
+    else{
+        if(l1<l2){
+            Node* temp=h2;
+            h2=h1;
+            h1=temp;
+            swap(l1,l2);
+        }
+    }
+    h1=reverse(h1);
+    h2=reverse(h2);
+    int bw=0;
+    Node* a=h1,*b=h2,*tail=res;
+    while(a && b){
+        int val=0;
+        val=((a->data-b->data-bw)<0)?10+a->data-b->data-bw:a->data-b->data-bw;
+        Node* temp=new Node(val);
+        tail->next=temp;
+        tail=temp;
+        if((a->data-b->data-bw)<0) bw=1;
+        else bw=0;
+        a=a->next;
+        b=b->next;
+    }
+    while(a){
+        int val=0;
+        val=((a->data-bw)<0)?10+a->data-bw:a->data-bw;
+        Node* temp=new Node(val);
+        tail->next=temp;
+        tail=temp;
+        if((a->data-bw)<0) bw=1;
+        else bw=0;
+        a=a->next;
+    }
+    res=res->next;
+    res= reverse(res);
+    while(res && res->data==0)
+        res=res->next;
+    return res;
+}
