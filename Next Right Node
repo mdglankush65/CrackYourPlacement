@@ -1,0 +1,50 @@
+/*
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+    struct Node *next;
+
+    Node(int x)
+    {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+class Solution
+{
+public:
+    Node *nextRight(Node *root, int key)
+    {
+        //code here
+        if(!root)
+            return NULL;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            int s=q.size();
+            bool flag=false;
+            for(int i=1;i<=s;i++){
+                Node* curr=q.front();
+                q.pop();
+                if(flag)
+                    return curr;
+                if(curr->data==key)
+                    flag=true;
+                if(curr->left)
+                    q.push(curr->left);
+                if(curr->right)
+                    q.push(curr->right);
+            }
+            if(flag){
+                Node* temp=new Node(-1);
+                return temp;
+            }
+        }
+        Node* temp=new Node(-1);
+        return temp;
+    }
+};
