@@ -1,0 +1,32 @@
+int evaluatePostfix(string S)
+    {
+        stack<int> s;
+        for(auto i:S){
+            if(i=='*'){
+                int val=s.top();
+                s.pop();
+                s.top()*=val;
+            }
+            else if(i=='/'){
+                int val=s.top();
+                s.pop();
+                if(val!=0)
+                s.top()/=val;
+            }
+            else if(i=='+'){
+                int val=s.top();
+                s.pop();
+                s.top()+=val;
+            }
+            else if(i=='-'){
+                int val=s.top();
+                s.pop();
+                s.top()-=val;
+            }
+            else
+                s.push(i-'0');
+        }
+        if(s.empty())
+            return -1;
+        return s.top();
+    }
