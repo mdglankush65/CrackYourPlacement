@@ -1,0 +1,79 @@
+// /**
+//  * Definition for a binary tree node.
+//  * struct TreeNode {
+//  *     int val;
+//  *     TreeNode *left;
+//  *     TreeNode *right;
+//  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+//  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+//  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+//  * };
+//  */
+// class Solution {
+// public:
+//     void solve(int cnt,TreeNode* curr,int &n,vector<TreeNode*> &res,unordered_map<int,bool> &mp){
+//         if(cnt==n){
+//             // if(isValidBST(curr))
+//             res.push_back(curr);
+//             return;
+//         }
+//         for(int i=1;i<=n;i++){
+//             if(mp[i])
+//                 continue;
+//             TreeNode* temp=curr;
+//             TreeNode* target=NULL;
+//             while(temp){
+//                 if(temp->val>i){
+//                     target=temp;
+//                     temp=temp->left;
+//                 }
+//                 if(temp->val<i){
+//                     target=temp;
+//                     temp=temp->right;
+//                 }
+//             }
+//             mp[i]=1;
+//             temp=new TreeNode(i);
+//             if(!target){
+//                 target=temp;
+//                 curr=temp;
+//             }
+//             else if(target->val>i)
+//                 target->left=temp;
+//             else
+//                 target->right=temp;
+//             solve(cnt+1,curr,n,res,mp);
+//             mp[i]=0;
+//         }
+//     }
+//     vector<TreeNode*> generateTrees(int n) {
+//         vector<TreeNode*> res;
+//         unordered_map<int,bool> mp;
+//         TreeNode* curr=NULL;
+//         solve(0,curr,n,res,mp);
+//         return res;
+//     }
+// };
+
+class Solution{
+    public:
+        vector<TreeNode*> generateTrees(int e,int s=1){
+            if(s>e)    return {NULL};
+            if(s==e)  return {new TreeNode(s)};
+            vector<TreeNode*> res;
+            for(int i=s;i<=e;i++){
+                vector<TreeNode*> left=generateTrees(i-1,s);
+                vector<TreeNode*> right=generateTrees(e,i+1);
+
+                for(TreeNode* l:left){
+                    for(TreeNode* r:right){
+                        TreeNode* root=new TreeNode(i);
+                        root->left=l;
+                        root->right=r;
+                        res.push_back(root);
+                    }
+                }
+            }
+            return res;
+        }
+};
