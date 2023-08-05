@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int minimumSeconds(vector<int>& nums) {
+        int n=nums.size();
+        unordered_map<int,vector<int>> mp;
+        for(int i=0;i<n;i++)
+            mp[nums[i]].push_back(i);
+        int res=INT_MAX;
+        for(auto &[num,arr]:mp){
+            arr.push_back(arr[0]+n);
+            int ans=0;
+            for(int i=1;i<arr.size();++i)
+                ans=max(ans,(arr[i]-arr[i-1])/2);
+            res=min(res,ans);
+        }
+        return res;
+        // unordered_map<int, vector<int>> mp;
+        // for (int i = 0; i < nums.size(); ++i)
+        //     mp[nums[i]].push_back(i);
+        // int res = INT_MAX;
+        // for (auto &[n, pos] : mp) {
+        //     pos.push_back(pos[0] + nums.size());
+        //     int seconds = 0;
+        //     for (int i = 1; i < pos.size(); ++i)
+        //         seconds = max(seconds, (pos[i] - pos[i - 1]) / 2);
+        //     res = min(res, seconds);
+        // }
+        // return res;
+    }
+};
