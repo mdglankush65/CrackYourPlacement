@@ -1,0 +1,47 @@
+class Solution{
+    public:
+    //Complete this function
+    // vector<string> res;
+    // unordered_map<int,bool> mp;
+    // void solve(string &ans,string s){
+    //     if(ans.length()==s.length()){
+    //         res.push_back(ans);
+    //         return;
+    //     }
+    //     for(int i=0;i<s.length();i++){
+    //         if(mp[i])
+    //             continue;
+    //         ans+=s[i];
+    //         mp[i]=1;
+    //         solve(ans,s);
+    //         mp[i]=0;
+    //         ans.pop_back();
+    //     }
+    //     return;
+    // }
+    // vector<string> permutation(string S)
+    // {
+    //     string ans="";
+    //     solve(ans,S);
+    //     sort(res.begin(),res.end());
+    //     return res;
+    // }
+    vector<string> res;
+    void solve(int l,int r,string s){
+        if(l>=r){
+            res.push_back(s);
+            return;
+        }
+        for(int i=l;i<r;i++){
+            swap(s[i],s[l]);
+            solve(l+1,r,s);
+            swap(s[i],s[l]);
+        }
+        return;
+    }
+    vector<string> permutation(string s){
+        solve(0,s.length(),s);
+        sort(res.begin(),res.end());
+        return res;
+    }
+};
