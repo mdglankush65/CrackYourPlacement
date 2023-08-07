@@ -1,0 +1,106 @@
+class Solution 
+{
+    public:
+    //Function to find a solved Sudoku.
+    // bool valid(int i,int j,int n,int grid[n][n]){
+    //     return i>=0 && j>=0 && i<n && j<n && grid[i][j]!=0;
+    // }
+    // bool square(int s,int e,int &val,int grid[9][9]){
+    //     for(int i=s-3;i<s;i++){
+    //         for(int j=e-3;j<e;j++)
+    //             if(grid[i][j]==val)
+    //                 return false;
+    //     }
+    // }
+    // bool valid(int i,int j,int val,int grid[9][9]){
+    //     for(int k=0;k<9;k++){
+    //         if(grid[k][j]==val)
+    //             return false;
+    //         if(grid[j][k]==val)
+    //             return false;
+    //         if(grid[3*(i/3)+k/3][3*(j/3)+k/3]==val)
+    //             return false;
+    //     }
+    //     if(i<=2 && j<=2){
+    //         return square(3,3,val,grid);
+    //     }
+    //     else if(i<=2 && j<=5 && j>=3){
+    //         return square(3,6,val,grid);
+    //     }
+    //     else if(i<=2 && j<=8 && j>=6){
+    //         return square(3,9,val,grid);
+    //     }
+    //     else if(i<=5 && i>=3 && j<=2 && j>=0){
+    //         return square(6,3,val,grid);
+    //     }
+    //     else if(i<=5 && i>=3 && j<=5 && j>=3){
+    //         return square(6,6,val,grid);
+    //     }
+    //     else if(i<=5 && i>=3 && j<=8 && j>=6){
+    //         return square(6,9,val,grid);
+    //     }
+    //     else if(i<=8 && i>=6 && j<=2 && j>=0){
+    //         return square(9,3,val,grid);
+    //     }
+    //     else if(i<=8 && i>=6 && j<=5 && j>=3){
+    //         return square(9,6,val,grid);
+    //     }
+    //     else if(i<=8 && i>=6 && j<=8 && j>=6){
+    //         return square(9,9,val,grid);
+    //     }
+    //     else{
+    //         return false;
+    //     }
+    // }
+    bool valid(int i,int j,int val,int grid[9][9]){
+        for(int k=0;k<9;k++){
+            if(grid[k][j]==val)
+                return false;
+            if(grid[i][k]==val)
+                return false;
+            if(grid[3*(i/3)+k/3][3*(j/3)+k%3]==val)
+                return false;
+        }
+        return true;
+    }
+    // bool solve(int i,int j,int grid[9][9]){
+    //     for(int k=1;k<=9;k++){
+    //         if(valid(i,j,k,grid)){
+    //             grid[i][j]=k;
+    //             if(!SolveSudoku(grid))
+    //                 grid[i][j]=0;
+    //             else
+    //                 return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+    bool SolveSudoku(int grid[9][9]){
+        bool ans=true;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(grid[i][j]==0){
+                    for(int k=1;k<=9;k++){
+                        if(valid(i,j,k,grid)){
+                            grid[i][j]=k;
+                            if(SolveSudoku(grid))
+                                return true;
+                            else
+                                grid[i][j]=0;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    //Function to print grids of the Sudoku.
+    void printGrid (int grid[9][9]){
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++)
+                cout<<grid[i][j]<<" ";
+        }
+    }
+};
