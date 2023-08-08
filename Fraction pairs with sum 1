@@ -1,0 +1,62 @@
+class Solution
+{
+    public:
+    int countFractions(int n, int numerator[], int denominator[]){
+        // int ans=0;
+        // vector<double> res;
+        // unordered_map<double,int> mp;
+        // for(int i=0;i<n;i++){
+        //     double num=double(num[i])/double(den[i]);
+        //     res.push_back(num);
+        //     mp[num]++;
+        // }
+        // for(int i=0;i<n;i++){
+        //     double num=double(num[i])/double(den[i]);
+        //     double a=double(den[i]-num[i])/double(den[i]);
+        //     mp[num]--;
+        //     ans+=m[a];
+        // }
+        // return ans;
+        int ans=0;
+        vector<double>v;
+        unordered_map<double,int>m;
+        for(int i=0;i<n;i++){
+            double num=double(numerator[i])/double(denominator[i]);
+            v.push_back(num);
+            m[num]++;
+        }
+        for(int i=0;i<n;i++){
+            double num=double(numerator[i])/double(denominator[i]);
+            double a=double(denominator[i]-numerator[i])/double(denominator[i]);
+            m[num]--;
+            ans+=m[a];
+        }
+       
+        return ans;
+        // vector<float> res(n);
+        // for(int i=0;i<n;i++)
+        //     res[i]=(float)num[i]/den[i];
+        // sort(res.begin(),res.end());
+        // for(auto i:res)
+        //     cout<<i<<" ";
+        // cout<<endl;
+        // map<float,int> mp;
+        // for(auto i:res)
+        //     mp[i]++;
+        // int ans=0;
+        // for(int i=0;i<n;i++){
+        //     if(res[i]==0.5)
+        //         continue;
+        //     int val_cnt=mp[res[i]];
+        //     float find_no=1-res[i];
+        //     int find_no_cnt=mp[find_no];
+        //     ans+=val_cnt*find_no_cnt;
+        //     cout<<val_cnt<<" "<<find_no<<" "<<find_no_cnt<<endl;
+        //     mp[res[i]]=0;
+        //     mp[find_no]=0;
+        // }
+        // int cnt_half=mp[0.5];
+        // ans+=(cnt_half-1)*cnt_half/2;
+        // return ans;
+    }
+};
