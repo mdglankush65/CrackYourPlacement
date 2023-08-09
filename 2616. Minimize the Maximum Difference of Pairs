@@ -1,0 +1,56 @@
+// class Solution {
+// public:
+//     int minimizeMax(vector<int>& nums, int p) {
+//         int res=0,n=nums.size();
+//         sort(nums.begin(),nums.end());
+//         vector<int> helper(n,-1);
+//         helper[0]=abs(nums[0]-nums[1]);
+//         helper[n-1]=abs(nums[n-1]-nums[n-2]);
+//         for(int i=1;i<n-1;i++)
+//             helper[i]=min(abs(nums[i]-nums[i-1]),abs(nums[i]-nums[i+1]));
+//         sort(helper.begin(),helper.end());
+//         for(auto i:helper)
+//             cout<<i<<"  ";
+//         for(int i=0;i<n && p>0;){
+//                 p--;
+//                 res=max(res,max(helper[i],helper[i+1]));
+//                 i+=2;
+//         }
+//         return res;
+//     }
+// };
+
+class Solution {
+public:
+   //able to  find p pairs with maximum difference of mid or not
+    bool solve(vector<int>& nums,int d,int p){
+        int n=nums.size();
+        int c=0;
+         for (int i = 0; i  < n-1; i++){
+
+            if (nums[i + 1] - nums[i] <= d) {
+               c++;
+               i++;//no index appears more than once amongst the p pairs
+            }
+            if(c>=p)//able to find
+            return true;
+           }
+           return false;
+    }
+    int minimizeMax(vector<int>& nums, int p) {
+    sort(nums.begin(), nums.end());
+    int n=nums.size();
+    //maximum difference is maximum element - minimum element
+    int lo = 0, hi = nums[n-1] - nums[0];
+    //we are checking for all the difference by binary search instead of linear search
+    while (lo < hi) {
+        int mid = (lo + hi) / 2;
+      
+        if (solve(nums,mid,p))
+            hi = mid;
+        else
+            lo = mid + 1;
+    }
+    return lo;
+}
+};
