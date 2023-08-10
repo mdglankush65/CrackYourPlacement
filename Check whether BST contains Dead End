@@ -1,0 +1,19 @@
+/*The Node structure is
+struct Node {
+int data;
+Node * right, * left;
+};*/
+
+/*You are required to complete below method */
+int solve(Node* root,int left,int right){
+    if(!root)
+        return false;
+    if(left-right==0)
+        return true;
+    if(solve(root->left,left,root->data-1)|| solve(root->right,root->data+1,right))
+        return true;
+    return false;
+}
+bool isDeadEnd(Node *root){
+    return solve(root,1,INT_MAX);
+}
