@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // void inorder(TreeNode* root,vector<int> &ans){
+    //     if(!root)
+    //         return ;
+    //     inorder(root->left,ans);
+    //     ans.push_back(root->val);
+    //     inorder(root->right,ans);
+    // }
+    // int getMinimumDifference(TreeNode* root) {
+    //     vector<int> ans;
+    //     inorder(root,ans);
+    //     int mn=INT_MAX;
+    //     for(int i=0;i<ans.size()-1;i++){
+    //         int value=abs(ans[i]-ans[i+1]);
+    //         if(mn>value)
+    //             mn=value;
+    //     }
+    //     return mn;
+    // }
+    void preSuc(TreeNode* root,TreeNode* &pre,TreeNode* &suc,int target){
+        if(!root)
+            return;
+        while(root && root->val!=target){
+            if(root->val<target){
+                pre=root;
+                root=root->right;
+            }
+            else{
+                suc=root;
+                root=root->left;
+            }
+        }
+        if(root){
+            TreeNode* left=root->right;
+            while(left){
+                pre=left;
+                left=left->left;
+            }
+            TreeNode* right=root->left;
+            while(right){
+                suc=right;
+                right=right->right;
+            }
+        }
+    }
+    int getMinimumDifference(TreeNode* root) {
+        if(!root)
+            return INT_MAX;
+        TreeNode* pre=NULL,*suc=NULL;
+        preSuc(root,pre,suc,root->val);
+        int p=pre?pre->val:INT_MAX;
+        int s=suc?suc->val:INT_MAX;
+        int mn=min(abs(root->val-p),abs(root->val-s));
+        return min(mn,min(getMinimumDifference(root->left),getMinimumDifference(root->right)));
+    }
+};
