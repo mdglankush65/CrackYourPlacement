@@ -1,0 +1,67 @@
+class Solution
+{
+    public:
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key){
+        if(!root)
+            return;
+        pre=suc=NULL;
+        while(root && root->key!=key){
+            if(root->key==key)
+                break;
+            if(root->key<key){
+                pre=root;
+                root=root->right;
+            }
+            else{
+                suc=root;
+                root=root->left;
+            }
+        }
+        
+        if(root){
+            Node* leftAns=root->left;
+            while(leftAns){
+                pre=leftAns;
+                leftAns=leftAns->right;
+            }
+            
+            Node* rightAns=root->right;
+            while(rightAns){
+                suc=rightAns;
+                rightAns=rightAns->left;
+            }
+        }
+    }
+    // vector<Node*> res;
+    // void inorder(Node* root){
+    //     if(!root)
+    //         return ;
+    //     inorder(root->left);
+    //     res.push_back(root);
+    //     inorder(root->right);
+    // }
+    // void findPreSuc(Node* root, Node*& pre, Node*& suc, int key){
+    //     if(!root)
+    //         return;
+    //     inorder(root);
+    //     pre=suc=NULL;
+    //     int n=res.size();
+    //     for(int i=0;i<n;i++){
+    //         if(res[i]->key==key){
+    //             if(i>0)
+    //                 pre=res[i-1];
+    //             if(i<n-1)
+    //                 suc=res[i+1];
+    //             return;
+    //         }
+    //         else if(res[i]->key<key)
+    //             pre=res[i];
+    //         else{
+    //             suc=res[i];
+    //             if(i>0)
+    //                 pre=res[i-1];
+    //             return;
+    //         }
+    //     }
+    // }
+};
