@@ -1,0 +1,85 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    unordered_map<TreeNode*,TreeNode*> mp;
+    unordered_map<TreeNode*,bool> vis;
+    vector<int> res;
+    void parent(TreeNode* root){
+        if(!root)
+            return ;
+        if(root->left)
+            mp[root->left]=root;
+        if(root->right)
+            mp[root->right]=root;
+        parent(root->left);
+        parent(root->right);
+    }
+    void solve(TreeNode* root,int k){
+        if(!root)
+            return ;
+        if(k==0)
+            res.push_back(root->val);
+        if(root->left && vis[root->left]==false){
+            vis[root->left]=1;
+            solve(root->left,k-1);
+        }
+        if(root->right && vis[root->right]==false){
+            vis[root->right]=1;
+            solve(root->right,k-1);
+        }
+        if(mp[root] && vis[mp[root]]==false){
+            vis[mp[root]]=1;
+            solve(mp[root],k-1);
+        }
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        mp[root]=NULL;
+        parent(root);
+        vis[target]=1;
+        solve(target,k);
+        return res;
+    }
+};
+
+//  void traverse(unordered_map<TreeNode*, TreeNode*> &parent,TreeNode* root){
+//         if(!root)
+//             return ;
+//         if(root->left)
+//             parent[root->left]=root;
+//         if(root->right)
+//             parent[root->right]=root;
+//         traverse(parent,root->left);
+//         traverse(parent,root->right);
+//     }
+//     void solve(unordered_map<TreeNode*, TreeNode*> &parent,unordered_map<TreeNode*, bool> &vis,vector<int> &res,TreeNode* &root,int &k,int dis){
+//         if(!root)
+//             return ;
+//         vis[root]=1;
+//         if(dis==k)
+//             res.push_back(root->val);
+//         if(root->left && !vis[root->left])
+//             solve(parent,vis,res,root->left,k,dis+1);
+//         if(root->right && !vis[root->right])
+//             solve(parent,vis,res,root->right,k,dis+1);
+//         if(parent[root] && !vis[parent[root]])
+//             solve(parent,vis,res,parent[root],k,dis+1);
+//     }
+//     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+//         unordered_map<TreeNode*, TreeNode*> parent;
+//         unordered_map<TreeNode*, bool> vis;
+//         vector<int> res;
+//         parent[root]=NULL;
+//         traverse(parent,root);
+        
+//         solve(parent,vis,res,target,k,0);
+//         return res;
+//     }
