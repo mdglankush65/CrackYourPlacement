@@ -1,0 +1,46 @@
+class Solution{
+    public:
+    /* Should return minimum distance between a and b
+    in a tree with given root*/
+    unordered_map<Node*,Node*> parent;
+    void make_parent(Node* root,Node* &a,int &val){
+        if(!root)   return;
+        if(val==root->data)
+            a=root;
+        if(root->left)
+            parent[root->left]=root;
+        if(root->right)
+            parent[root->right]=root;
+        make_parent(root->left,a,val);
+        make_parent(root->right,a,val);
+    }
+    unordered_map<Node*,bool> vis;
+    int dis(Node* root,int d,int val){
+        if(!root)
+            return INT_MAX;
+        if(root->data==val)
+            return d;
+        int l=INT_MAX,r=INT_MAX,p=INT_MAX;
+        if(root->left && !vis[root->left]){
+            vis[root->left]=1;
+            l=dis(root->left,d+1,val);
+        }
+        if(root->right && !vis[root->right]){
+            vis[root->right]=1;
+            r=dis(root->right,d+1,val);
+        }
+        if(parent[root] && !vis[parent[root]]){
+            vis[parent[root]]=1;
+            p=dis(parent[root],d+1,val);
+        }
+        return min(l,min(r,p));
+    }
+    int findDist(Node* root, int a, int b) {
+        // Your code here'
+        parent[root]=NULL;
+        Node* a_=NULL;
+        make_parent(root,a_,a);
+        vis[a_]=1;
+        return dis(a_,0,b);
+    }
+};
