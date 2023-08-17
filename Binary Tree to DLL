@@ -1,0 +1,28 @@
+class Solution
+{
+    public: 
+    //Function to convert binary tree to doubly linked list and return it.
+    void inorder(Node* root,Node* &head,Node* &tail){
+        if(root==NULL)
+            return;
+        inorder(root->left,head,tail);
+        if(head==NULL){
+            head=new Node(root->data);
+            tail=head;
+        }
+        else{
+            Node* next=new Node(root->data);
+            tail->right=next;
+            next->left=tail;
+            tail=next;
+        }
+        inorder(root->right,head,tail);
+    }
+    Node * bToDLL(Node *root)
+    {
+        Node* head=NULL;
+        Node* tail=NULL;
+        inorder(root,head,tail);
+        return head;
+    }
+};
