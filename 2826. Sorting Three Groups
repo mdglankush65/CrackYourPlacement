@@ -1,0 +1,48 @@
+// class Solution {
+// public:
+//     int minimumOperations(vector<int>& nums) {
+//         int n=nums.size();
+//         int sum3=0,sum2=0;
+//         int o=0,t=0;
+//         if(nums[n-1]==1)
+//             o++;
+//         if(nums[n-1]==2)
+//             t++;
+//         for(int i=n-2;i>=0;i--){
+//             if(nums[i]==2){
+//                 sum2+=o;
+//                 o=0;
+//                 t++;
+//             }
+//             else if(nums[i]==3){
+//                 sum3+=o+t;
+//                 o=0;
+//                 t=0;
+//             }
+//             else
+//                 o++;
+//         }
+//         return min(n-sum2-sum3,sum2+sum3);
+//     }
+// };
+
+class Solution {
+public:
+    int minimumOperations(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> res;
+        res.push_back(nums[0]);
+        int cnt=0;
+        for(int i=1; i<n; i++) {
+            auto up = upper_bound(res.begin(),res.end(),nums[i]);
+            if(up==res.end()) {
+                res.push_back(nums[i]);
+            }else {
+                int idx = up - res.begin();
+                res[idx] = min(res[idx],nums[i]);
+                cnt++;
+            }
+        }
+        return cnt++;
+    }
+};
