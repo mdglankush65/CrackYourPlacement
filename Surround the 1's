@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int Count(vector<vector<int> >& matrix) {
+        // Code here
+        int n=matrix.size(),m=matrix[0].size(),res=0;
+        queue<pair<int,int>> q;
+        vector<pair<int,int>> dir={{0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, 0}, {-1, 0}, {1, -1}, {-1, 1}};
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                // if(matrix[i][j]==1)
+                //     q.push({i,j});
+                if(matrix[i][j]==0)
+                    continue;
+                int cnt=0;
+                for(auto& p:dir){
+                    int a=i+p.first,b=j+p.second;
+                    if(a>=0 && a<n && b>=0 && b<m && matrix[a][b]==0)
+                        cnt++;
+                }
+                if(!(cnt&1) && cnt!=0)
+                    res++;
+            }
+        }
+        // while(!q.empty()){
+        //     int cnt=0;
+        //     auto x=q.front().first,y=q.front().second;
+        //     q.pop();
+        //     for(auto& p:dir){
+        //         int a=x+p.first,b=y+p.second;
+        //         if(a>=0 && a<n && b>=0 && b<m && matrix[a][b]==0)
+        //             cnt++;
+        //     }
+        //     if(cnt&1 || cnt==0)
+        //         res--;
+        // }
+        return res;
+    }
+};
