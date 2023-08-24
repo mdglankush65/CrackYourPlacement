@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// 1.base case : NULL does not have camera and does not require monitoring hence return 3.
+
+// 2.Get values from left subtree and right subtree first(postorder).
+
+// 3.If left needs monitoring OR right needs monitoring, put a camera.
+
+// 4.If left AND right both do not need monitoring but do not have cameras then return 1 as root requires monitoring now.
+
+// 5.If left OR right has a camera return 3 has root does not require monitoring but does not have a camera
+
+class Solution {
+public:
+    int total=0;
+    int minCameraCover(TreeNode* root) {
+        int val=postorder(root);
+        if(val==1)  total++;
+        return total;
+    }
+    int postorder(TreeNode* root){
+        if(!root)   return 3;
+        int left=postorder(root->left);
+        int right=postorder(root->right);
+        if(left ==1 || right==1){
+            total++;
+            return 2;
+        }
+        if(left==3 && right==3)
+            return 1;
+        if(left==2 || right==2)
+            return 3;
+        return 0;
+    }
+};
