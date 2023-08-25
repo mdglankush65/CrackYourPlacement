@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool solve(int i,int j,int k,string &s1,string &s2,string &s3,vector<vector<int>> &dp){
+        if(i>=s1.length() && j>=s2.length())
+            return k>=s3.length();
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(s1[i]==s3[k] && s2[j]==s3[k]){
+            dp[i][j]=solve(i+1,j,k+1,s1,s2,s3,dp);
+            if(!dp[i][j])
+                dp[i][j]=solve(i,j+1,k+1,s1,s2,s3,dp);
+            return dp[i][j];
+        }
+        if(s1[i]==s3[k])
+            return dp[i][j]=solve(i+1,j,k+1,s1,s2,s3,dp);
+        if(s2[j]==s3[k])
+            return dp[i][j]=solve(i,j+1,k+1,s1,s2,s3,dp);
+        return false;
+    }
+    bool isInterleave(string s1, string s2, string s3) {
+        // int n=s1.length(),m=s2.length(),size=s3.length();
+        // int i=0,j=0,k=0;
+        // int cnt_1=0,cnt_2=0;
+        // while(i<n || j<n){
+        //     while(s1[i]==s3[k]){
+        //         cnt_1++;
+        //         i++;
+        //         k++;
+        //     }
+        //     while(s2[j]==s3[k]){
+        //         cnt_2++;
+        //         j++;
+        //         k++;
+        //     }
+        // }
+        // return abs(cnt_1-cnt_2)<=1;
+        if(s1.length()+s2.length()!=s3.length())
+            return false;
+        vector<vector<int>> dp(s1.length()+1,vector<int> (s2.length()+1,-1));
+        return solve(0,0,0,s1,s2,s3,dp);
+    }
+};
