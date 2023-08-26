@@ -1,0 +1,33 @@
+class Solution {
+public:
+    // static bool compare(vector<int>&v1,vector<int>&v2){
+    //     return v1[1]<v2[1];    
+    // }
+    // int solve(int i,vector<vector<int>> &pairs,int val,vector<int> &dp){
+    //     if(i>=pairs.size())
+    //         return 0;
+    //     if(dp[i]!=-1)
+    //         return dp[i];
+    //     int taken = 0;
+    //     if(val<pairs[i][0])
+    //         taken=1+solve(i+1,pairs,pairs[i][1],dp);
+    //     int nottaken = solve(i+1,pairs,val,dp);
+    //     return dp[i]=max(taken,nottaken);
+    // }
+    int solve(int i,vector<vector<int>> &pairs,int prev,vector<vector<int>> &dp){
+        if(i==pairs.size())
+            return 0;
+        if(dp[i][prev+1]!=-1)
+            return dp[i][prev+1];
+        int taken = -1e9;
+        if(prev==-1 || pairs[prev][1]<pairs[i][0])
+            taken=1+solve(i+1,pairs,i,dp);
+        int nottaken = solve(i+1,pairs,prev,dp);
+        return dp[i][prev+1]=max(taken,nottaken);
+    }
+    int findLongestChain(vector<vector<int>>& pairs) {
+        sort(pairs.begin(),pairs.end());
+        vector<vector<int>> dp(pairs.size(),vector<int>(pairs.size()+1,-1));
+        return solve(0,pairs,-1,dp);
+    }
+};
