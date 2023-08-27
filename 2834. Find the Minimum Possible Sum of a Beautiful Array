@@ -1,0 +1,26 @@
+class Solution {
+public:
+    long long minimumPossibleSum(int n, int target) {
+        vector<long long > nums;
+        unordered_map<long long ,bool> mp;
+        int i=1;
+        while(nums.size()<n){
+            if(nums.size()==0){
+                nums.push_back(i);
+                mp[i]=1;
+                i++;
+                continue;
+            }
+            else if(!mp[i]&& !mp[target-i]){
+                mp[i]=1;
+                nums.push_back(i);
+            }
+            i++;
+        }
+        long long sum=0;
+        for(auto it:nums){
+            sum+=it;
+        }
+        return sum;
+    }
+};
