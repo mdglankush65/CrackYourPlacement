@@ -1,0 +1,63 @@
+// class Solution {
+// public:
+//     long long getMaxFunctionValue(vector<int>& nums, long long k) {
+//         long long res=0;
+//         for(int i=0;i<nums.size();i++){
+//             long long ans=i;
+//             if(nums[i]==i){
+//                 res=max(res,ans*k);
+//                 continue;
+//             }
+//             int cnt=0;
+//             int j=i;
+//             unordered_map<int,bool> mp;
+//             while(cnt<k){
+//                 if(mp[j]){
+//                     long val=k/cnt;
+//                     ans+=val*cnt;
+//                     cnt =k-k%cnt;
+//                     mp[j]=0;
+//                     continue;
+//                 }
+//                 mp[j]=1;
+//                 j=nums[j];
+//                 cnt++;
+//                 ans+=j;
+//             }
+//             res=max(res,ans);
+//         }
+//         return res;
+//     }
+// };
+class Solution {
+    #define ll long long
+public:
+    long long getMaxFunctionValue(vector<int>& a, long long k) {
+        int n = a.size();
+        vector<vector<int>> f(n, vector<int>(35));
+        vector<vector<ll>> cnt(n, vector<ll>(35));
+        for(int i=0; i<n; i++){
+            f[i][0] = a[i];
+            cnt[i][0] = a[i];
+        }
+        for(int j=1; j<35; j++){
+            for(int i=0; i<n; i++){
+                f[i][j] = f[f[i][j-1]][j-1];
+                cnt[i][j] = cnt[i][j-1] + cnt[f[i][j-1]][j-1];
+            }
+        }
+        ll ans = 0;
+        for(int i=0; i<n; i++){
+            ll tmp = i;
+            int x = i;
+            for(int j=34; j>=0; j--){
+                if(k & (1LL<<j)){
+                    tmp += cnt[x][j];
+                    x = f[x][j];
+                }
+            }
+            ans = max(ans, tmp);
+        }
+        return ans;
+    }
+};
