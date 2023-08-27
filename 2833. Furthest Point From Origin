@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int solve(string &moves,int i,int res,vector<vector<int>> &dp){
+        if(i==moves.length())
+            return res;
+        if(dp[i][res+50]!=-1)
+            return dp[i][res+50];
+        int l=INT_MIN,r=INT_MIN,o=INT_MIN;
+        if(moves[i]=='L')
+            l=solve(moves,i+1,res-1,dp);
+        else if(moves[i]=='R')
+            r=abs(solve(moves,i+1,res+1,dp));
+        else
+            o=max(abs(solve(moves,i+1,res+1,dp)),abs(solve(moves,i+1,res-1,dp)));
+        return dp[i][res+50]=max({abs(l),abs(r),abs(o)});
+    }
+    int furthestDistanceFromOrigin(string moves) {
+        vector<vector<int>> dp(moves.length(),vector<int>(101,-1));
+        return solve(moves,0,0,dp);
+        // int cnt1=0,cnt2=0;
+        // for(auto it:moves){
+        //     if(it=='L'){cnt1--; cnt2--;}
+        //     else if(it=='R'){cnt1++;cnt2++;}
+        //     else{cnt1--;cnt2++;}
+        // }
+        // return max(abs(cnt1),abs(cnt2));
+    }
+};
