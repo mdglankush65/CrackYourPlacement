@@ -1,0 +1,81 @@
+// class Solution {
+// public:
+//     // let solve=(nums1,nums2,x,sum,add)=>{
+//     //     let cnt=0;
+//     //     if(sum<=x)
+//     //         return cnt;
+//     //     let temp=Number.MAX_VALUE;
+//     //     nums1.forEach((val,ind)=>{
+//     //         sum+=add-val-nums2[ind];
+//     //         temp=Math.min(temp,solve(nums1,nums2,x,sum,add));
+//     //         sum-=add-val-nums2[ind];
+//     //     });
+//     //     cnt+=temp;
+//     //     return cnt;
+//     // };
+//     // var minimumTime = function(nums1, nums2, x) {
+        
+//     //     let sum=nums1.reduce((acc,num)=>acc+=num);
+//     //     let add=nums2.reduce((acc,num)=>acc+num);
+//     //     let obj={sum}
+//     //     let res= solve(nums1,nums2,x,obj,add);
+//     //     if(res==Number.MAX_VALUE)
+//     //         return -1;
+//     //     return res;
+//     // };
+//     int solve(vector<int> &nums1,vector<int> &nums2,int &x,int sum,int &add){
+//         if(sum<=x)
+//             return 0;
+//         int temp=INT_MAX;
+//         for(int i=0;i<nums1.size();i++){
+//             sum+=add-nums1[i]-nums2[i];
+//             temp=min(temp,solve(nums1,nums2,x,sum,add));
+//             sum+=nums1[i]+nums2[i]-add;
+//         };
+//         if(temp==INT_MAX)
+//             return -1;
+//         return temp;
+//     }
+//     int minimumTime(vector<int>& nums1, vector<int>& nums2, int x) {
+//         int sum=0,add=0;
+//         for(auto i:nums1)
+//             sum+=i;
+//         for(auto i:nums2)
+//             add+=i;
+//         int res= solve(nums1,nums2,x,sum,add);
+//         if(res==INT_MAX)
+//             return -1;
+//         return res;
+//     }
+// };
+
+class Solution {
+public:
+    int minimumTime(vector<int>& nums1, vector<int>& nums2, int x) {
+        const int n = nums1.size();
+        vector<int> ind(n);
+        int s = 0, d = 0;
+        for (int i = 0; i < n; ++i) {
+            ind[i] = i;
+            s += nums1[i];
+            d += nums2[i];
+        }
+        if (s <= x) {
+            return 0;
+        }
+        sort(ind.begin(), ind.end(), [&](const int a, const int b) {
+            return nums2[a] < nums2[b];
+        });
+        vector<int> dp(n + 1);
+        int r = n + 1;
+        for (int i = 1; i <= n; ++i) {
+            for (int j = min(i, r - 1); j; --j) {
+                dp[j] = max(dp[j], dp[j - 1] + nums2[ind[i - 1]] * j + nums1[ind[i - 1]]);
+                if (s + j * d - dp[j] <= x) {
+                    r = j;
+                }
+            }
+        }
+        return r <= n ? r : -1;
+    }
+};
