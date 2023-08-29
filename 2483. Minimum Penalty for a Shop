@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int bestClosingTime(string s) {
+        int mxscore=0,score=0,h=-1;
+        for(int i=0;i<s.length();i++){
+            score+=s[i]=='Y'?1:-1;
+            if(score>mxscore){
+                mxscore=score;
+                h=i;
+            }
+        }
+        return h+1;
+        // int n=s.length();
+        // vector<int> pre(n,0);
+        // pre[n-1]=s[n-1]=='Y'?1:-1;
+        // for(int i=n-2;i>=0;i--) {
+        //     if(s[i]=='Y')
+        //         pre[i]=pre[i+1]+1;
+        //     else
+        //         pre[i]=pre[i+1]-1;
+        // }
+        // for(auto i:pre)
+        //     cout<<i<<"  ";
+        // int res=0,val=pre[0];
+        // for(int i=1;i<n;i++){
+        //     if(val>pre[i]){
+        //         val=pre[i];
+        //         res=i;
+        //         cout<<res<<endl;
+        //     }
+        //     else if(val>pre[i] && val<0){
+        //         val=pre[i];
+        //         res=i;
+        //         cout<<res<<endl;
+        //     }
+        // }
+        // if(res==n-1 && s[n-1]=='Y')
+        //     return n;
+        // return res;
+    }
+};
