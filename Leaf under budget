@@ -1,0 +1,38 @@
+class Solution
+{
+public:
+    int getCount(Node *root, int k)
+    {
+        if(!root)
+            return 0;
+        vector<int> res;
+        queue<Node*> q;
+        q.push(root);
+        int level=1;
+        while(!q.empty()){
+            int s=q.size();
+            while(s--){
+                Node* curr=q.front();
+                q.pop();
+                if(!curr->left && !curr->right)
+                    res.push_back(level);
+                if(curr->left)
+                    q.push(curr->left);
+                if(curr->right)
+                    q.push(curr->right);
+            }
+            level++;
+        }
+        sort(res.begin(),res.end());
+        int cnt=0;
+        for(int i=0;i<res.size();i++){
+            if(k-res[i]>=0){
+                cnt++;
+                k-=res[i];
+            }
+            else
+                break;
+        }
+        return cnt;
+    }
+};
